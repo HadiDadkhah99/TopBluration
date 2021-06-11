@@ -19,38 +19,51 @@
             android:layout_width="match_parent">
 
 
-            <ScrollView
+            <HorizontalScrollView
                 android:id="@+id/mainScrollView1"
                 android:layout_centerInParent="true"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
 
                 <LinearLayout
+                    android:gravity="center"
                     android:id="@+id/mainLinearLayout2"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
 
 
                     <View
-                        android:layout_height="600dp"
-                        android:layout_width="10dp" />
+                        android:layout_height="10dp"
+                        android:layout_width="300dp" />
 
 
-                    <com.foc.libs.focTopBluration.BlurItem
-                        android:layout_height="100dp"
-                        android:layout_width="200dp" />
+                    <androidx.cardview.widget.CardView
+                        app:cardElevation="24dp"
+                        app:cardCornerRadius="24dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content">
+
+                        <View
+                            android:alpha="0.2"
+                            android:background="@color/white"
+                            android:layout_width="200dp"
+                            android:layout_height="100dp"/>
+                        <com.foc.libs.focTopBluration.BlurItem
+                            android:layout_height="100dp"
+                            android:layout_width="200dp" />
+
+                    </androidx.cardview.widget.CardView>
 
 
                     <View
-                        android:layout_height="600dp"
-                        android:layout_width="10dp"
-                        android:src="@android:drawable/ic_delete" />
+                        android:layout_height="10dp"
+                        android:layout_width="300dp"/>
 
 
                 </LinearLayout>
 
-            </ScrollView>
+            </HorizontalScrollView>
 
         </com.foc.libs.focTopBluration.BlurLayout>
 

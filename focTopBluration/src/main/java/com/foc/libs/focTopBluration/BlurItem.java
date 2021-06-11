@@ -3,17 +3,8 @@ package com.foc.libs.focTopBluration;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ColorMatrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewParent;
 
 public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
@@ -124,29 +115,50 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
     void drawBlur(int X, int Y) {
 
         try {
-
-
-
-
             int startX = X;
             int startY = Y;
+            int removedY = 0;
+            int removedX = 0;
+            int startGetYPixel = 0;
+            int startGetXPixel = 0;
 
+            /* Start check Y coordinate */
             if (Y < 0) {
                 startY = 0;
+                removedY = Math.abs(Y);
+                startGetYPixel = removedY;
+            } else if (Y + getHeight() > mainParent.getHeight()) {
+                startY = Y;
+                removedY = (getHeight() + Y) - mainParent.getHeight();
+                startGetYPixel = 0;
+            }
+            /*** End check Y coordinate ***/
+
+
+            /* Start check Y coordinate */
+            if (X < 0) {
+                startX = 0;
+                removedX = Math.abs(X);
+                startGetXPixel = removedX;
+            } else if (X + getWidth() > mainParent.getWidth()) {
+
+                startX = X;
+                removedX = (getWidth() + X) - mainParent.getWidth();
+                startGetXPixel = 0;
+
             }
 
+            Log.i(TAG, "drawBlur: " + removedX);
 
             //create mini Bitmap
             Bitmap miniBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
 
 
             //create mini array
-            int[] miniBlurArray = getBitmapPixels(blurBitmap, startX, startY, miniBitmap.getWidth(), miniBitmap.getHeight()+Y-10);
-
+            int[] miniBlurArray = getBitmapPixels(blurBitmap, startX, startY, miniBitmap.getWidth()-removedX, miniBitmap.getHeight() - removedY);
 
             //set pixels
-            miniBitmap.setPixels(miniBlurArray, 0, miniBitmap.getWidth(), 0, 0, miniBitmap.getWidth(), miniBitmap.getHeight()+Y-10);
-
+            miniBitmap.setPixels(miniBlurArray, 0, miniBitmap.getWidth()-removedX, startGetXPixel, startGetYPixel, miniBitmap.getWidth() - removedX, miniBitmap.getHeight() - removedY);
 
             //draw background
             setImageBitmap(miniBitmap);

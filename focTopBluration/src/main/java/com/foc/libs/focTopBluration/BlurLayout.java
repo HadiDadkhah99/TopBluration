@@ -121,7 +121,7 @@ public class BlurLayout extends RelativeLayout {
         Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
 
         //Set the radius of the blur
-        blurScript.setRadius(10.f);
+        blurScript.setRadius(25.f);
 
         //Perform the Renderscript
         blurScript.setInput(allIn);
