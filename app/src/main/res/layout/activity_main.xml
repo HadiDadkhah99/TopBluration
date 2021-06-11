@@ -1,18 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRelativeLayout2"
+    android:background="#000000"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    tools:context=".MainActivity">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:id="@+id/mainRelativeLayout1"
+        android:background="#102DBE"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.foc.libs.focTopBluration.BlurLayout
+            android:id="@+id/mainLinearLayout1"
+            android:background="@drawable/i3"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+
+            <ScrollView
+                android:id="@+id/mainScrollView1"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/mainLinearLayout2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <View
+                        android:layout_height="600dp"
+                        android:layout_width="10dp" />
+
+
+                    <com.foc.libs.focTopBluration.BlurItem
+                        android:layout_height="100dp"
+                        android:layout_width="200dp" />
+
+
+                    <View
+                        android:layout_height="600dp"
+                        android:layout_width="10dp"
+                        android:src="@android:drawable/ic_delete" />
+
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </com.foc.libs.focTopBluration.BlurLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
