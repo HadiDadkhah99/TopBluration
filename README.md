@@ -94,7 +94,7 @@ dependencies {
 
 </RelativeLayout>
 ```
-### In ScrollView (Horizental , Vertical) 
+### In ScrollView (Horizontal , Vertical) 
 
 ```xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
