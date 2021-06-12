@@ -186,3 +186,16 @@ dependencies {
 </RelativeLayout>
 ```
 
+### Main
+```xml
+<BlurLayout>
+		
+	</BlurItem>
+	
+	</BlurItem>
+
+	</BlurItem>
+
+ </BlurLayout>
+```
+
