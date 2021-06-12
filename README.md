@@ -35,7 +35,7 @@ dependencies {
 
 
 
-### In Any Layout
+### In any layout
 
 ```xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
