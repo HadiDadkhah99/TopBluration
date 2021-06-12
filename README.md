@@ -30,6 +30,11 @@ dependencies {
 
 
 ## How to use it
+
+![](http://www.dadkhahhadi.ir/github/topBlurGif.gif) ![alt text](http://www.dadkhahhadi.ir/github/topBlurimg.png) 
+
+
+
 ### In Any Layout
 
 ```xml
