@@ -5,6 +5,30 @@
 ### Don't use it in RecyclerView in this version ( 1.0 )
 <br>
 
+<p>
+   <b>Step 1.</b> Add the JitPack repository to your build file
+</p>
+			
+```groovy
+allprojects {
+		repositories {
+	                //...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+
+
+<p><b>Step 2.</b> Add the dependency</p>
+
+```groovy
+dependencies {
+	       implementation 'com.github.HadiDadkhah99:TopBluration:$last_version'
+	}
+```
+
+
 ## How to use it
 ### In Any Layout
 
