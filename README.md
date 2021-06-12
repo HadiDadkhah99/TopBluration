@@ -188,7 +188,9 @@ dependencies {
 
 ### Main
 ```xml
-<BlurLayout>
+<BlurLayout
+    android:background="@drawable/youBackground"
+    app:blur="25">
 		
 	</BlurItem>
 	
