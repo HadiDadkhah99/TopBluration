@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal"
+    android:layout_height="100dp"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginTop="16dp"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="50dp"
+    app:cardElevation="24dp">
+
+    <com.foc.libs.focTopBluration.BlurItem
+        android:id="@+id/blb"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+
+    <TextView
+        android:id="@+id/testView_test"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Hadi"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+</androidx.cardview.widget.CardView>

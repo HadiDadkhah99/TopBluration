@@ -11,8 +11,8 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
 
     public static String TAG = "blur_tag";
 
-    //blur value
-    private int blurValue = 1;
+
+
     //blur bitmap
     private Bitmap blurBitmap;
     //blur data array
@@ -20,6 +20,8 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
 
     //blur layout
     BlurLayout mainParent;
+
+    private String name;
 
     public BlurItem(Context context) {
         super(context);
@@ -31,17 +33,14 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
         init(context, attrs);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     void init(Context context, AttributeSet attrs) {
 
         positionListener();
 
-        if (attrs == null)
-            return;
-
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BlurLayout);
-        blurValue = typedArray.getInt(R.styleable.BlurLayout_blur, blurValue);
-
-        typedArray.recycle();
     }
 
 
@@ -67,10 +66,7 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
 
         });
 
-        getViewTreeObserver().addOnScrollChangedListener(() -> {
-            // Log.i(TAG, "ScrollChangedListener: ");
-            startDrawBlur();
-        });
+        getViewTreeObserver().addOnScrollChangedListener(this::startDrawBlur);
 
 
     }
@@ -114,7 +110,11 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
 
     void drawBlur(int X, int Y) {
 
+
+
         try {
+            l = System.currentTimeMillis();
+
             int startX = X;
             int startY = Y;
             int removedY = 0;
@@ -123,42 +123,45 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
             int startGetXPixel = 0;
 
             /* Start check Y coordinate */
-            if (Y < 0) {
-                startY = 0;
-                removedY = Math.abs(Y);
-                startGetYPixel = removedY;
-            } else if (Y + getHeight() > mainParent.getHeight()) {
-                startY = Y;
-                removedY = (getHeight() + Y) - mainParent.getHeight();
-                startGetYPixel = 0;
-            }
+            int[] yData = calcY(X, Y);
+            startY = yData[0];
+            removedY = yData[1];
+            startGetYPixel = yData[2];
             /*** End check Y coordinate ***/
 
 
             /* Start check Y coordinate */
-            if (X < 0) {
-                startX = 0;
-                removedX = Math.abs(X);
-                startGetXPixel = removedX;
-            } else if (X + getWidth() > mainParent.getWidth()) {
+            int[] xData = calcX(X, Y);
+            startX = xData[0];
+            removedX = xData[1];
+            startGetXPixel = xData[2];
+            /*** End check X coordinate ***/
 
-                startX = X;
-                removedX = (getWidth() + X) - mainParent.getWidth();
-                startGetXPixel = 0;
 
-            }
+            //#######
+            long t1 = time();
+            l = System.currentTimeMillis();
 
-            Log.i(TAG, "drawBlur: " + removedX);
 
             //create mini Bitmap
             Bitmap miniBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
 
 
             //create mini array
-            int[] miniBlurArray = getBitmapPixels(blurBitmap, startX, startY, miniBitmap.getWidth()-removedX, miniBitmap.getHeight() - removedY);
+            int[] miniBlurArray = getBitmapPixels(blurBitmap, startX, startY, miniBitmap.getWidth() - removedX, miniBitmap.getHeight() - removedY);
+
+
+            //#######
+            long t2 = time();
+            l = System.currentTimeMillis();
 
             //set pixels
-            miniBitmap.setPixels(miniBlurArray, 0, miniBitmap.getWidth()-removedX, startGetXPixel, startGetYPixel, miniBitmap.getWidth() - removedX, miniBitmap.getHeight() - removedY);
+            miniBitmap.setPixels(miniBlurArray, 0, miniBitmap.getWidth() - removedX, startGetXPixel, startGetYPixel, miniBitmap.getWidth() - removedX, miniBitmap.getHeight() - removedY);
+
+            //#####
+            long t3 = time();
+
+            Log.i(TAG, name+" --> ( "+X+" , "+Y+" )\tget= " + t2 + "\tset= " + t3);
 
             //draw background
             setImageBitmap(miniBitmap);
@@ -169,20 +172,58 @@ public class BlurItem extends androidx.appcompat.widget.AppCompatImageView {
         }
     }
 
+    int[] calcY(int X, int Y) {
+
+        int startY = Y;
+        int removedY = 0;
+        int startGetYPixel = 0;
+
+        /* Start check Y coordinate */
+        if (Y < 0) {
+            startY = 0;
+            removedY = Math.abs(Y);
+            startGetYPixel = removedY;
+        } else if (Y + getHeight() > mainParent.getHeight()) {
+            startY = Y;
+            removedY = (getHeight() + Y) - mainParent.getHeight();
+            startGetYPixel = 0;
+        }
+        /*** End check Y coordinate ***/
+
+        return new int[]{startY, removedY, startGetYPixel};
+    }
+
+    int[] calcX(int X, int Y) {
+
+        int startX = X;
+        int removedX = 0;
+        int startGetXPixel = 0;
+
+        /* Start check Y coordinate */
+        if (X < 0) {
+            startX = 0;
+            removedX = Math.abs(X);
+            startGetXPixel = removedX;
+        } else if (X + getWidth() > mainParent.getWidth()) {
+
+            startX = X;
+            removedX = (getWidth() + X) - mainParent.getWidth();
+            startGetXPixel = 0;
+
+        }
+        /*** End check X coordinate ***/
+
+        return new int[]{startX, removedX, startGetXPixel};
+    }
+
 
     public int[] getBitmapPixels(Bitmap bitmap, int x, int y, int width, int height) {
         //pixels array
         int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
         //get pixels
-        bitmap.getPixels(pixels, 0, bitmap.getWidth(), x, y,
+        bitmap.getPixels(pixels, 0, width, x, y,
                 width, height);
-
-        final int[] subsetPixels = new int[width * height];
-        for (int row = 0; row < height; row++) {
-            System.arraycopy(pixels, (row * bitmap.getWidth()),
-                    subsetPixels, row * width, width);
-        }
-        return subsetPixels;
+        return pixels;
     }
 
 
